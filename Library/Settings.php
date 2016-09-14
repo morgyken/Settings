@@ -48,16 +48,7 @@ class Settings implements SettingsContract {
         if (!$setting) {
             return is_null($default) ? $defaultFromConfig : $default;
         }
-
-        if ($setting->isTranslatable) {
-            if ($setting->hasTranslation($locale)) {
-                return empty($setting->translate($locale)->value) ? $defaultFromConfig : $setting->translate($locale)->value;
-            }
-        } else {
-            return empty($setting->plainValue) ? $defaultFromConfig : $setting->plainValue;
-        }
-
-        return $defaultFromConfig;
+        return empty($setting->plainValue) ? $defaultFromConfig : $setting->plainValue;
     }
 
     /**
@@ -91,8 +82,7 @@ class Settings implements SettingsContract {
      */
     private function getDefaultFromConfigFor($name) {
         list($module, $settingName) = explode('::', $name);
-
-        return config("asgard.$module.settings.$settingName.default", '');
+        return mconfig("$module.settings.$settingName.default", '');
     }
 
 }
