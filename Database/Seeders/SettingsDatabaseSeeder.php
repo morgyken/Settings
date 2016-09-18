@@ -3,19 +3,18 @@
 namespace Ignite\Settings\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 
-class SettingsDatabaseSeeder extends Seeder
-{
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run()
-	{
-		Model::unguard();
+class SettingsDatabaseSeeder extends Seeder {
 
-		// $this->call("OthersTableSeeder");
-	}
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run() {
+        // $this->call("OthersTableSeeder");
+        // $this->call("OthersTableSeeder");
+        $this->call(SetupDatabaseSeeder::class);
+    }
+
 }

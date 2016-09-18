@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSettingsSettingsTable extends Migration {
+class CreateAppointmentCategoriesTable extends Migration {
 
     /**
      * Run the migrations.
@@ -11,13 +11,11 @@ class CreateSettingsSettingsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('settings_settings', function(Blueprint $table) {
+        Schema::create('settings_appointment_categories', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('value')->nullable();
             $table->string('payload')->nullable();
-            $table->boolean('autoload')->default(true);
-            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,7 +25,7 @@ class CreateSettingsSettingsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('settings_settings');
+        Schema::drop('settings_appointment_categories');
     }
 
 }

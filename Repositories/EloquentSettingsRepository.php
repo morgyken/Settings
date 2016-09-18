@@ -11,7 +11,10 @@
  */
 
 namespace Ignite\Settings\Repositories;
+
 use Ignite\Core\Repositories\EloquentBaseRepository;
+use Ignite\Settings\Events\SettingWasCreated;
+use Ignite\Settings\Events\SettingWasUpdated;
 
 /**
  * Description of EloquentSettingsRepository
@@ -36,12 +39,10 @@ class EloquentSettingsRepository extends EloquentBaseRepository implements Setti
      */
     public function all() {
         $rawSettings = parent::all();
-
         $settings = [];
         foreach ($rawSettings as $setting) {
             $settings[$setting->name] = $setting;
         }
-
         return $settings;
     }
 
@@ -52,7 +53,6 @@ class EloquentSettingsRepository extends EloquentBaseRepository implements Setti
      */
     public function createOrUpdate($settings) {
         $this->removeTokenKey($settings);
-
         foreach ($settings as $settingName => $settingValues) {
             if ($setting = $this->findByName($settingName)) {
                 $this->updateSetting($setting, $settingValues);
@@ -87,17 +87,8 @@ class EloquentSettingsRepository extends EloquentBaseRepository implements Setti
     private function createForName($settingName, $settingValues) {
         $setting = new $this->model();
         $setting->name = $settingName;
-
-        if ($this->isTranslatableSetting($settingName)) {
-            $setting->isTranslatable = true;
-            $this->setTranslatedAttributes($settingValues, $setting);
-            event(new SettingWasCreated($settingName, true, $settingValues));
-        } else {
-            $setting->isTranslatable = false;
-            $setting->plainValue = $this->getSettingPlainValue($settingValues);
-            event(new SettingWasCreated($settingName, false, $settingValues));
-        }
-
+        $setting->value = $this->getSettingValue($settingValues);
+        event(new SettingWasCreated($settingName, false, $settingValues));
         return $setting->save();
     }
 
@@ -108,27 +99,10 @@ class EloquentSettingsRepository extends EloquentBaseRepository implements Setti
      */
     private function updateSetting($setting, $settingValues) {
         $name = $setting->name;
-
-        if ($this->isTranslatableSetting($name)) {
-            $this->setTranslatedAttributes($settingValues, $setting);
-            event(new SettingWasUpdated($name, true, $settingValues));
-        } else {
-            $oldValues = $setting->plainValue;
-            $setting->plainValue = $this->getSettingPlainValue($settingValues);
-            event(new SettingWasUpdated($name, true, $settingValues, $oldValues));
-        }
-
+        $oldValues = $setting->value;
+        $setting->value = $this->getSettingValue($settingValues);
+        event(new SettingWasUpdated($name, true, $settingValues, $oldValues));
         return $setting->save();
-    }
-
-    /**
-     * @param $settingValues
-     * @param $setting
-     */
-    private function setTranslatedAttributes($settingValues, $setting) {
-        foreach ($settingValues as $lang => $value) {
-            $setting->translateOrNew($lang)->value = $value;
-        }
     }
 
     /**
@@ -139,16 +113,14 @@ class EloquentSettingsRepository extends EloquentBaseRepository implements Setti
      */
     public function moduleSettings($modules) {
         if (is_string($modules)) {
-            return config('asgard.' . strtolower($modules) . ".settings");
+            return mconfig(strtolower($modules) . ".settings");
         }
-
         $modulesWithSettings = [];
         foreach ($modules as $module) {
-            if ($moduleSettings = config('asgard.' . strtolower($module->getName()) . ".settings")) {
+            if ($moduleSettings = mconfig(strtolower($module->getName()) . ".settings")) {
                 $modulesWithSettings[$module->getName()] = $moduleSettings;
             }
         }
-
         return $modulesWithSettings;
     }
 
@@ -162,7 +134,6 @@ class EloquentSettingsRepository extends EloquentBaseRepository implements Setti
         foreach ($this->findByModule($module) as $setting) {
             $moduleSettings[$setting->name] = $setting;
         }
-
         return $moduleSettings;
     }
 
@@ -185,25 +156,12 @@ class EloquentSettingsRepository extends EloquentBaseRepository implements Setti
     }
 
     /**
-     * Return the translatable module settings
-     * @param $module
-     * @return mixed
-     */
-    public function translatableModuleSettings($module) {
-        return array_filter($this->moduleSettings($module), function ($setting) {
-            return isset($setting['translatable']) && $setting['translatable'] === true;
-        });
-    }
-
-    /**
      * Return the non translatable module settings
      * @param $module
      * @return array
      */
-    public function plainModuleSettings($module) {
-        return array_filter($this->moduleSettings($module), function ($setting) {
-            return !isset($setting['translatable']) || $setting['translatable'] === false;
-        });
+    public function getModuleSettings($module) {
+        return $this->moduleSettings($module);
     }
 
     /**
@@ -214,20 +172,7 @@ class EloquentSettingsRepository extends EloquentBaseRepository implements Setti
     private function getConfigSettingName($settingName) {
         list($module, $setting) = explode('::', $settingName);
 
-        return "asgard.{$module}.settings.{$setting}";
-    }
-
-    /**
-     * Check if the given setting name is translatable
-     * @param string $settingName
-     * @return bool
-     */
-    private function isTranslatableSetting($settingName) {
-        $configSettingName = $this->getConfigSettingName($settingName);
-
-        $setting = config("$configSettingName");
-
-        return isset($setting['translatable']) && $setting['translatable'] === true;
+        return "ignite.{$module}.settings.{$setting}";
     }
 
     /**
@@ -235,7 +180,7 @@ class EloquentSettingsRepository extends EloquentBaseRepository implements Setti
      * @param string|array $settingValues
      * @return string
      */
-    private function getSettingPlainValue($settingValues) {
+    private function getSettingValue($settingValues) {
         if (is_array($settingValues)) {
             return json_encode($settingValues);
         }

@@ -32,6 +32,15 @@ class SettingsServiceProvider extends ServiceProvider {
     protected $defer = false;
 
     /**
+     * @var array
+     */
+    protected $middleware = [
+        'Settings' => [
+            'setup' => 'PracticeSetupMiddleware',
+        ],
+    ];
+
+    /**
      * Boot the application events.
      *
      * @return void
@@ -41,6 +50,7 @@ class SettingsServiceProvider extends ServiceProvider {
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->registerMiddleware();
 
         $this->app['setting.settings'] = $this->app->share(function ($app) {
             return new Settings($app[SettingsRepository::class]);
@@ -59,6 +69,15 @@ class SettingsServiceProvider extends ServiceProvider {
      */
     public function register() {
         //
+    }
+
+    private function registerMiddleware() {
+        foreach ($this->middleware as $module => $middlewares) {
+            foreach ($middlewares as $name => $middleware) {
+                $class = "Ignite\\{$module}\\Http\\Middleware\\{$middleware}";
+                $this->app['router']->middleware($name, $class);
+            }
+        }
     }
 
     /**
