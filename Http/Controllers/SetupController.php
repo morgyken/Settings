@@ -18,11 +18,6 @@ use Illuminate\Http\Request;
 class SetupController extends AdminBaseController {
 
     /**
-     * @var array Application featured data
-     */
-    protected $data = [];
-
-    /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function practice() {

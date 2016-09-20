@@ -56,19 +56,20 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
                     $item->icon('fa fa-building');
                     $item->route('settings.clinics');
                 });
-
-                $item->item('Appointment Categories', function(Item $item) {
-                    $item->icon('fa fa-wpforms');
-                    $item->route('settings.schedule_cat');
-                });
-                $item->item('Procedure Categories', function(Item $item) {
-                    $item->icon('fa fa-wpforms');
-                    $item->route('settings.procedure_cat');
-                });
-                $item->item('Procedures', function(Item $item) {
-                    $item->icon('fa fa-hourglass-1');
-                    $item->route('settings.procedures');
-                });
+                /*
+                 * @todo Include in modules
+                  $item->item('Appointment Categories', function(Item $item) {
+                  $item->icon('fa fa-wpforms');
+                  $item->route('settings.schedule_cat');
+                  });
+                  $item->item('Procedure Categories', function(Item $item) {
+                  $item->icon('fa fa-wpforms');
+                  $item->route('settings.procedure_cat');
+                  });
+                  $item->item('Procedures', function(Item $item) {
+                  $item->icon('fa fa-hourglass-1');
+                  $item->route('settings.procedures');
+                  }); */
                 $item->item('Insurance Companies', function(Item $item) {
                     $item->icon('fa fa-institution');
                     $item->route('settings.companies');

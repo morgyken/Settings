@@ -25,7 +25,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Ignite\Settings\Entities\Practice $practices
- * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Settings\Entities\Wards[] $wards
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Settings\Entities\Clinics whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Settings\Entities\Clinics wherePractice($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Settings\Entities\Clinics whereName($value)
@@ -52,10 +51,6 @@ class Clinics extends Model {
 
     public function practices() {
         return $this->belongsTo(Practice::class, 'practice');
-    }
-
-    public function wards() {
-        return $this->hasMany(Wards::class);
     }
 
 }

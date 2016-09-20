@@ -41,14 +41,13 @@ class Settings implements SettingsContract {
      * @param  string   $default
      * @return mixed
      */
-    public function get($name, $locale = null, $default = null) {
+    public function get($name, $default = null) {
         $defaultFromConfig = $this->getDefaultFromConfigFor($name);
-
         $setting = $this->setting->findByName($name);
         if (!$setting) {
             return is_null($default) ? $defaultFromConfig : $default;
         }
-        return empty($setting->plainValue) ? $defaultFromConfig : $setting->plainValue;
+        return empty($setting->value) ? $defaultFromConfig : $setting->value;
     }
 
     /**

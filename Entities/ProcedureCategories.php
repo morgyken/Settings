@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $name
  * @property string $applies_to
  * @property string $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Settings\Entities\Procedures[] $procedures
  * @property-read mixed $applies
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Settings\Entities\Procedures[] $procedures
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Settings\Entities\ProcedureCategories whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Settings\Entities\ProcedureCategories whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\Ignite\Settings\Entities\ProcedureCategories whereAppliesTo($value)
@@ -26,13 +26,13 @@ class ProcedureCategories extends Model {
 
     public $timestamps = false;
     public $table = 'settings_procedure_categories';
-
+    public function getAppliesAttribute() {
+        return config('system.applies_to.' . $this->applies_to);
+    }
     public function procedures() {
         return $this->hasMany(Procedures::class, 'category_id', 'category_id');
     }
 
-    public function getAppliesAttribute() {
-        return config('system.applies_to.' . $this->applies_to);
-    }
+
 
 }

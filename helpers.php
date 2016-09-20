@@ -166,9 +166,12 @@ if (!function_exists('get_doctors')) {
      * @return array
      */
     function get_doctors() {
+        return User::with(['profile'])->get()->pluck('profile.full_name', 'id')->toArray();
+        /*
         return User::with(['profile', 'role'])
                         ->whereIn('group_id', [5, 12])->get()->pluck('profile.full_name', 'id')->toArray();
         // dd($next);
+*/
     }
 
 }

@@ -12,6 +12,7 @@
 @extends('layouts.app')
 
 @section('content_title','Settings')
+@section('content_description','Setting preferences')
 
 @section('content')
 {!! Form::open(['route' => ['settings.settings.save'], 'method' => 'post']) !!}

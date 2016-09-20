@@ -112,25 +112,11 @@ class CacheSettingsDecorator extends BaseCacheDecorator implements SettingsRepos
     }
 
     /**
-     * Return the translatable module settings
-     * @param $module
-     * @return array
-     */
-    public function translatableModuleSettings($module) {
-        return $this->cache
-                        ->tags($this->entityName, 'global')
-                        ->remember("{$this->locale}.{$this->entityName}.translatableModuleSettings.{$module}", $this->cacheTime, function () use ($module) {
-                            return $this->repository->translatableModuleSettings($module);
-                        }
-        );
-    }
-
-    /**
      * Return the non translatable module settings
      * @param $module
      * @return array
      */
-    public function plainModuleSettings($module) {
+    public function getModuleSettings($module) {
         return $this->cache
                         ->tags($this->entityName, 'global')
                         ->remember("{$this->locale}.{$this->entityName}.plainModuleSettings.{$module}", $this->cacheTime, function () use ($module) {

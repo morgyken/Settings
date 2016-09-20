@@ -8,8 +8,10 @@
 $clinik = $data['clinic_model'];
 ?>
 @extends('layouts.app')
+
 @section('content_title','Facility Setup')
 @section('content_description','Add detail of facilities available')
+
 @section('content')
 <div class="form-horizontal">
     <div class="box box-info">

@@ -12,9 +12,9 @@
 $namespace = 'Ignite\Settings\Http\Controllers';
 
 //back-end routes
-Route::group(['prefix' => 'users',
+Route::group(['prefix' => 'api/settings',
     'middleware' => mconfig('core.core.middleware.api'),
     'namespace' => $namespace,
-    'as' => 'settings.api.'], function () {
-
+    'as' => 'api.settings.'], function () {
+    Route::get('get_schemes', ['uses' => 'ApiController@get_schemes', 'as' => 'get_schemes']);
 });

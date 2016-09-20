@@ -28,7 +28,6 @@ class SettingsController extends AdminBaseController {
      * @var Store
      */
     private $session;
-    protected $data = [];
 
     /**
      * SettingsController constructor.
