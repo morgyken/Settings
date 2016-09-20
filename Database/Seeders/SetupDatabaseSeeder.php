@@ -14,7 +14,7 @@ class SetupDatabaseSeeder extends Seeder {
     public function run() {
         $this->call(PracticeSeederTableSeeder::class);
         $this->call(InsuranceTableSeeder::class);
-        $this->call(ProceduresTableSeeder::class);
+        //$this->call(ProceduresTableSeeder::class);
     }
 
 }
