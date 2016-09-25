@@ -1,7 +1,7 @@
 {
     "name": "Settings",
     "alias": "settings",
-    "description": "",
+    "description": "Module for handling all site settings.",
     "keywords": [],
     "active": 1,
     "order": 1,
@@ -14,5 +14,8 @@
     },
     "files": [
         "start.php"
-    ]
+    ],
+    "version": "v1.0.0",
+    "author": "Samuel Okoth",
+    "email": "sodhiambo@collabmed.com"
 }
