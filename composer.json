@@ -2,7 +2,7 @@
     "name": "collabmed/settings",
     "description": "Module for handling all site settings.",
     "license": "proprietary",
-    "type": "asgard-module",
+    "type": "dervis-module",
     "homepage": "http://www.collabmed.com",
     "authors": [
         {
@@ -19,5 +19,8 @@
         "psr-4": {
             "Ignite\\Settings\\": ""
         }
+    },
+    "extra": {
+        "installer-name": "Settings"
     }
 }
