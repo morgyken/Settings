@@ -16,6 +16,10 @@
         "start.php"
     ],
     "version": "v1.0.0",
-    "author": "Samuel Okoth",
-    "email": "sodhiambo@collabmed.com"
+    "author": [
+        {
+            "name": "Samuel Odhiambo",
+            "email": "sodhiambo@collabmed.com"
+        }
+    ]
 }
