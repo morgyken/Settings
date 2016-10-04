@@ -10,5 +10,5 @@
  * =============================================================================
  */
 return [
-    'timezone' => ['description' => 'Africa/Nairobi', 'view' => 'text'],
+    'app_name' => ['description' => 'Application Name', 'view' => 'text'],
 ];

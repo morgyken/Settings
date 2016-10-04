@@ -9,6 +9,7 @@
  *
  * =============================================================================
  */
+
 use Ignite\Settings\Entities\Clinics;
 use Ignite\Settings\Entities\Insurance;
 use Ignite\Settings\Entities\ProcedureCategories;
@@ -143,7 +144,7 @@ if (!function_exists('get_clinic_name')) {
      */
     function get_clinic_name($id = null) {
         if (empty($id)) {
-            $id = Cookie::get('clinic');
+            $id = Cookie::get('clinic') || 1;
         }
         return Clinics::findOrNew($id)->name;
     }
@@ -168,10 +169,10 @@ if (!function_exists('get_doctors')) {
     function get_doctors() {
         return User::with(['profile'])->get()->pluck('profile.full_name', 'id')->toArray();
         /*
-        return User::with(['profile', 'role'])
-                        ->whereIn('group_id', [5, 12])->get()->pluck('profile.full_name', 'id')->toArray();
-        // dd($next);
-*/
+          return User::with(['profile', 'role'])
+          ->whereIn('group_id', [5, 12])->get()->pluck('profile.full_name', 'id')->toArray();
+          // dd($next);
+         */
     }
 
 }

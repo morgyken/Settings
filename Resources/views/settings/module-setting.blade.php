@@ -32,7 +32,7 @@
                 @foreach($data['modulesWithSettings'] as $module => $settings)
                 <li>
                     <a href="{{ route('settings.module.settings', [$module]) }}"
-                       class="{{ $module == $data['current_module']->getLowerName() ? 'active' : '' }}">
+                       class="{{ $module == $data['current_module']->getName() ? 'active' : '' }}">
                         {{ ucfirst($module) }}
                         <small class="badge pull-right bg-blue">{{ count($settings) }}</small>
                     </a>
@@ -44,7 +44,7 @@
     <div class="col-md-10">
         @if($data['setting'])
         <div class="box box-primary">
-            <div class="box-header">
+            <div class="box-header with-border">
                 Settings for <b>{{$data['current_module']}}</b> module
             </div>
             <div class="box-body">
