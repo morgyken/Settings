@@ -10,4 +10,7 @@
                    {{ trans($optionName) }}
         </label>
     <?php endforeach; ?>
+    @if (!empty($moduleInfo['hint']))
+    <p class="help-block">{{$moduleInfo['hint']}}</p>
+    @endif
 </div>

@@ -135,24 +135,7 @@ class SetupFunctions {
         return false;
     }
 
-    /**
-     * Saves a new procedure category model. Updates a model if ID is supplied in param
-     * @param Request $request
-     * @param $id
-     * @return bool
-     */
-    public static function add_procedure_category(Request $request, $id = null) {
-        // $editing = !empty($id);
-        $category = ProcedureCategories::findOrNew($id);
-        $category->name = $request->name;
-        $category->applies_to = $request->applies_to;
-        if ($category->save()) {
-            flash("Procedure category \"" . $category->name . "\" has been saved");
-            return true;
-        }
-        flash()->error("An error occurred");
-        return false;
-    }
+
 
     /**
      * Adds an appointment or schedule categories
@@ -171,28 +154,6 @@ class SetupFunctions {
         return false;
     }
 
-    /**
-     * Save procedure model instance
-     * @param Request $request
-     * @param $id
-     * @return bool
-     */
-    public static function add_procedure(Request $request, $id = null) {
-        $procedure = Procedures::findOrNew($id);
-        $procedure->name = $request->name;
-        $procedure->code = strtoupper($request->code);
-        $procedure->active = $request->status;
-        $procedure->category_id = $request->category;
-        $procedure->cash_charge = $request->cash_charge;
-        $procedure->charge_insurance = $request->cash_charge_insurance;
-        $procedure->description = $request->description;
-        if ($procedure->save()) {
-            flash($procedure->name . " has been saved");
-            return true;
-        }
-        flash()->error("An error occurred");
-        return false;
-    }
 
     public static function include_exclude_product(Request $request) {
         if ($request->to == 'exclude') {

@@ -5,4 +5,7 @@
     <?php else: ?>
         {!! Form::textarea($settingName, old($settingName), ['class' => 'form-control ckeditor', 'placeholder' => trans($moduleInfo['description'])]) !!}
     <?php endif; ?>
+    @if (!empty($moduleInfo['hint']))
+    <p class="help-block">{{$moduleInfo['hint']}}</p>
+    @endif
 </div>

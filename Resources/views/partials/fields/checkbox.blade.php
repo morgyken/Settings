@@ -8,4 +8,7 @@
                value="1" />
                {{ $moduleInfo['description'] }}
     </label>
+    @if (!empty($moduleInfo['hint']))
+    <p class="help-block">{{$moduleInfo['hint']}}</p>
+    @endif
 </div>

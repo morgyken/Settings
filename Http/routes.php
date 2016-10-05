@@ -25,9 +25,7 @@ Route::group([ 'as' => 'settings.', 'middleware' => mconfig('core.core.middlewar
     Route::post('companies/save/{id?}', ['uses' => 'SetupController@save_insurance', 'as' => 'companies.save']);
     Route::get('scheme/show/{company?}', ['uses' => 'SetupController@schemes', 'as' => 'schemes']);
     Route::post('scheme/save/{company?}', ['uses' => 'SetupController@save_schemes', 'as' => 'schemes.save']);
-    Route::match(['post', 'get'], 'procedures/{procedure?}', ['as' => 'procedures', 'uses' => 'SetupController@procedures']);
-    Route::match(['post', 'get'], 'procedure_cat/{cat?}', ['as' => 'procedure_cat', 'uses' => 'SetupController@procedure_cat']);
-    Route::match(['post', 'get'], 'schedule_cat/{cat?}', ['as' => 'schedule_cat', 'uses' => 'SetupController@schedule_cat']);
+        Route::match(['post', 'get'], 'schedule_cat/{cat?}', ['as' => 'schedule_cat', 'uses' => 'SetupController@schedule_cat']);
     Route::match(['post', 'get'], 'user/{id}', ['uses' => 'SetupController@user_profile', 'as' => 'userprofile']);
     Route::get('insurance/{id}/scheme/exclusions', ['uses' => 'SetupController@exclude_product', 'as' => 'exclusions']);
 });

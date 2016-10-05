@@ -12,8 +12,6 @@
 
 use Ignite\Settings\Entities\Clinics;
 use Ignite\Settings\Entities\Insurance;
-use Ignite\Settings\Entities\ProcedureCategories;
-use Ignite\Settings\Entities\Procedures;
 use Ignite\Settings\Entities\Schemes;
 use Ignite\Settings\Entities\Wards;
 use Ignite\Users\Entities\Roles;
@@ -125,16 +123,7 @@ if (!function_exists('get_schemes')) {
     }
 
 }
-if (!function_exists('get_product_categories')) {
 
-    /**
-     * @return \Illuminate\Support\Collection Procedure Collection
-     */
-    function get_procedure_categories() {
-        return ProcedureCategories::all()->pluck('name', 'id');
-    }
-
-}
 if (!function_exists('get_clinic_name')) {
 
     /**
@@ -147,16 +136,6 @@ if (!function_exists('get_clinic_name')) {
             $id = Cookie::get('clinic') || 1;
         }
         return Clinics::findOrNew($id)->name;
-    }
-
-}
-if (!function_exists('get_procedures')) {
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    function get_procedures() {
-        return Procedures::all()->pluck('name', 'id');
     }
 
 }

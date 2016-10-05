@@ -31,16 +31,6 @@ return [
     'ward_types' => ['general' => 'General', 'private' => 'Private'],
     'bed_types' => [0 => 'Elevation', 1 => 'Wheels', 2 => 'Side Rails'],
     'scheme_types' => [1 => 'Full', 2 => 'Capitation', 3 => 'Copay',],
-    'applies_to' => [
-        1 => 'Doctor',
-        2 => 'Pharmacy',
-        3 => 'Lab',
-        4 => 'Radiology',
-        5 => 'Nursing',
-        6 => 'UltraSound',
-        7 => 'Diagnostics',
-        8 => 'Theatre',
-    ],
     'checkin_purposes' => [
         1 => 'First time consultation',
         2 => 'Review after surgery',

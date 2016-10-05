@@ -93,32 +93,6 @@ class SetupController extends AdminBaseController {
         return redirect()->route('settings.schemes', $company);
     }
 
-    public function procedures(Request $request, $id = null) {
-        if ($request->isMethod('post')) {
-            if (empty($id)) {
-                $this->validate($request, Validation::validate_procedures());
-            }
-            if (SetupFunctions::add_procedure($request, $id)) {
-                return redirect()->route('settings.procedures');
-            }
-        }
-        $this->data['procedure'] = Procedures::findOrNew($id);
-        $this->data['procedures'] = Procedures::all();
-        return view('settings::procedures')->with('data', $this->data);
-    }
-
-    public function procedure_cat(Request $request, $id = null) {
-        if ($request->isMethod('post')) {
-            if (empty($id))
-                $this->validate($request, Validation::validate_procedure_category(), ['unique' => 'Already exist']);
-            if (SetupFunctions::add_procedure_category($request, $id)) {
-                return redirect()->route('settings.procedure_cat');
-            }
-        }
-        $this->data['categories'] = ProcedureCategories::all();
-        $this->data['model'] = ProcedureCategories::findOrNew($id);
-        return view('settings::procedure_cat')->with('data', $this->data);
-    }
 
     public function schedule_cat(Request $request, $id = null) {
         if ($request->isMethod('post')) {

@@ -5,4 +5,7 @@
     <?php else: ?>
         {!! Form::text($settingName, old($settingName), ['class' => 'form-control', 'placeholder' => trans($moduleInfo['description'])]) !!}
     <?php endif; ?>
+    @if (!empty($moduleInfo['hint']))
+    <p class="help-block">{{$moduleInfo['hint']}}</p>
+    @endif
 </div>
