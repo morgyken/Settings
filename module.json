@@ -7,13 +7,14 @@
     "order": 1,
     "providers": [
         "Ignite\\Settings\\Providers\\SettingsServiceProvider",
-        "Ignite\\Settings\\Providers\\EventServiceProvider"
+        "Ignite\\Settings\\Providers\\EventServiceProvider",
+        "Ignite\\Settings\\Providers\\RouteServiceProvider"
     ],
     "aliases": {
         "Setting": "Ignite\\Settings\\Facades\\Settings"
     },
     "files": [
-        "start.php"
+        "helpers.php"
     ],
     "version": "v1.0.0",
     "author": [
