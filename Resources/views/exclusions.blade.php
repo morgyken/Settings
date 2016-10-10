@@ -65,5 +65,5 @@
     var EXCLUDE_URL = "{{route('setup.ajax.exclude_scheme')}}";
     var scheme_id = "{{$data['scheme']->id}}";
 </script>
-<script src="{{Module::asset('setup:js/exclusions.min.js')}}"></script>
+<script src="{{m_asset('setup:js/exclusions.min.js')}}"></script>
 @endsection

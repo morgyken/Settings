@@ -102,5 +102,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="{{Module::asset('settings:js/schemes.min.js')}}"></script>
+<script type="text/javascript" src="{{m_asset('settings:js/schemes.min.js')}}"></script>
 @endsection
