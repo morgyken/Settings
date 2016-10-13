@@ -12,9 +12,8 @@ class SettingsDatabaseSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        // $this->call("OthersTableSeeder");
-        // $this->call("OthersTableSeeder");
         $this->call(SetupDatabaseSeeder::class);
+        $this->call(DefaultSettingsTableSeeder::class);
     }
 
 }
