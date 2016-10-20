@@ -93,7 +93,6 @@ class SetupController extends AdminBaseController {
         return redirect()->route('settings.schemes', $company);
     }
 
-
     public function schedule_cat(Request $request, $id = null) {
         if ($request->isMethod('post')) {
             if (empty($id))
@@ -104,7 +103,7 @@ class SetupController extends AdminBaseController {
         }
         $this->data['categories'] = AppointmentCategory::all();
         $this->data['model'] = AppointmentCategory::findOrNew($id);
-        return view('settings::schedule_cat')->with('data', $this->data);
+        return view('settings::schedule_cat', ['data' => $this->data]);
     }
 
     public function user_profile(Request $request, $id) {
@@ -115,7 +114,7 @@ class SetupController extends AdminBaseController {
             }
         }
         $this->data['user'] = User::find($id);
-        return view('settings::userprofile')->with('data', $this->data);
+        return view('settings::userprofile', ['data' => $this->data]);
     }
 
     public function permission(Request $request, $group_id) {
@@ -126,7 +125,7 @@ class SetupController extends AdminBaseController {
         }
         $this->data['user_group'] = UserGroup::find($group_id);
         $this->data['permissions'] = Permission::all();
-        return view('settings::permissions')->with('data', $this->data);
+        return view('settings::permissions', ['data' => $this->data]);
     }
 
     public function exclude_product($id) {
