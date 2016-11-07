@@ -19,7 +19,7 @@ class DefaultSettingsTableSeeder extends Seeder {
                 ['name' => 'core::site-name', 'value' => 'Collabmed Platform'],
                 ['name' => 'core::site-description', 'value' => 'An elegant , highly opinionated modular healthcare system'],
                 ['name' => 'core::real-time', 'value' => true],
-                ['name' => 'evaluation::receipt_prefix', 'value' => 'COL'],
+                ['name' => 'finance::receipt_prefix', 'value' => 'COL'],
                 ['name' => 'reception::checkin_destinations', 'value' => '["1","5","9"]'],
                 ['name' => 'reception::checkin_places', 'value' => '["laboratory","theatre","diagnostics","radiology","pharmacy"]']
         ];

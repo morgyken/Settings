@@ -189,3 +189,17 @@ if (!function_exists('get_role')) {
     }
 
 }
+if (!function_exists('m_setting')) {
+
+    /**
+     * Retrieve a setting value from the setting repository
+     * @param type $param
+     * @return type
+     */
+    function m_setting($param) {
+        $arguments = explode('.', $param);
+        $should_get = setting(implode('::', $arguments));
+        return !empty($should_get) ? $should_get : null;
+    }
+
+}
