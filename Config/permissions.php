@@ -11,9 +11,11 @@
  */
 
 return [
-    'setting.settings' => [
-        'index',
-        'getModuleSettings',
-        'store',
+    'setup' => [
+        'general' => 'General Settings',
+        'org' => 'Organization',
+        'facilities' => 'Facilities',
+        'insurance' => 'Insurance Companies',
+        'schemes' => 'Insurance Schemes',
     ],
 ];
