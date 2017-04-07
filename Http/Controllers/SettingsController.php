@@ -48,6 +48,7 @@ class SettingsController extends AdminBaseController {
     }
 
     public function store(SettingsRequest $request) {
+        //dd($request);
         $this->setting->createOrUpdate($request->all());
         flash("Settings saved");
         return redirect()->route('settings.module.settings', [$this->session->get('module', 'Core')]);
