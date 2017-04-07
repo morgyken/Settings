@@ -13,6 +13,7 @@ use Ignite\Settings\Http\Requests\CreateInsuranceRequest;
 use Ignite\Settings\Http\Requests\CreateInsuranceSchemesRequest;
 use Ignite\Settings\Http\Requests\CreatePracticeRequest;
 use Ignite\Settings\Library\SetupFunctions;
+use Ignite\Settings\Entities\CompanyPrice;
 use Illuminate\Http\Request;
 
 class SetupController extends AdminBaseController {
@@ -61,6 +62,67 @@ class SetupController extends AdminBaseController {
         $this->data['companies'] = Insurance::all();
         $this->data['model'] = Insurance::findOrNew($company);
         return view('settings::insurance', ['data' => $this->data, 'id' => $company]);
+    }
+
+    /**
+     * @param null $company procedure prices
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function CompanyProcedures(Request $request) {
+        if ($request->isMethod('post')) {
+            $this->saveCoProcedure($request);
+        }
+        $this->data['procedures'] = CompanyPrice::whereCompany($request->company)->get();
+        $this->data['model'] = Insurance::findOrNew($request->company);
+        return view('settings::company_procedures', ['data' => $this->data, 'id' => $request->company]);
+    }
+
+    public function purge_co_price(\Illuminate\Http\Request $request) {
+        $procedure = $request->procedure;
+        $price = $request->price;
+        $co = $request->co;
+        try {
+            $cprice = \Ignite\Settings\Entities\CompanyPrice::whereCompany($co)->whereProcedure($procedure)->get(); //findOrNew(['company' => $co, 'procedure' => $procedure]); //whereCompany($co)->whereProcedure($procedure)->get();
+            foreach ($cprice as $c) {
+                $c->price = $price;
+                $c->delete();
+            }
+            flash("Price(s) Saved", 'success');
+        } catch (\Exception $ex) {
+            flash("Price could not be saved", 'danger');
+        }
+        return back();
+    }
+
+    /**
+     * Build an index of items dynamically
+     * @return array
+     */
+    private function get_selected_stack(Request $request) {
+        $stack = [];
+        foreach ($request->input() as $key => $one) {
+            if (starts_with($key, 'item')) {
+                $stack[] = substr($key, 4);
+            }
+        }
+        return $stack;
+    }
+
+    function saveCoProcedure(Request $request) {
+        try {
+            $set = $this->get_selected_stack($request);
+            foreach ($set as $item) {
+                $procedure = "item" . $item;
+                $price = 'price' . $item;
+                $cp = new CompanyPrice();
+                $cp->procedure = $request->$procedure;
+                $cp->company = $request->company;
+                $cp->price = $request->$price;
+                $cp->save();
+            }
+        } catch (\Exception $e) {
+            //sip coffee
+        }
     }
 
     /**
@@ -133,6 +195,10 @@ class SetupController extends AdminBaseController {
         $this->data['excluded'] = InventoryProductExclusion::whereScheme($id)->select('product')->get();
         $this->data['scheme'] = Schemes::find($id);
         return view('settings::exclusions', ['data' => $this->data]);
+    }
+
+    public function consultation() {
+
     }
 
 }
