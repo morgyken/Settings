@@ -163,10 +163,15 @@ if (!function_exists('is_excluded')) {
      * @param InventoryProducts $product
      * @return bool
      */
-    function is_excluded(Collection $collection, InventoryProducts $product) {
-        return $collection->contains(function ($key, $value) use ($product) {
-                    return $value->product == $product->id;
-                });
+    function is_excluded($collection, $product) {
+        try {
+            return $collection->contains(function ($key, $value) use ($product) {
+                        return $value->product == $product->id;
+                    });
+        } catch (\Exception $ex) {
+            flash("Something went wrong");
+            return back();
+        }
     }
 
 }

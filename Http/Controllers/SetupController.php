@@ -181,8 +181,13 @@ class SetupController extends AdminBaseController {
 
     public function permission(Request $request, $group_id) {
         if ($request->isMethod('post')) {
-            if (SetupFunctions::save_permissions($request, $group_id)) {
-                return redirect()->route('settings.user_groups');
+            try {
+                if (SetupFunctions::save_permissions($request, $group_id)) {
+                    return redirect()->route('settings.user_groups');
+                }
+            } catch (\Exception $e) {
+                flash('Something went wrong');
+                return back();
             }
         }
         $this->data['user_group'] = UserGroup::find($group_id);
@@ -191,10 +196,15 @@ class SetupController extends AdminBaseController {
     }
 
     public function exclude_product($id) {
-        $this->data['products'] = InventoryProducts::all();
-        $this->data['excluded'] = InventoryProductExclusion::whereScheme($id)->select('product')->get();
-        $this->data['scheme'] = Schemes::find($id);
-        return view('settings::exclusions', ['data' => $this->data]);
+        try {
+            $this->data['products'] = \Ignite\Inventory\Entities\InventoryProducts::all();
+            $this->data['excluded'] = \Ignite\Inventory\Entities\InventoryProductExclusion::whereScheme($id)->select('product')->get();
+            $this->data['scheme'] = Schemes::find($id);
+            return view('settings::exclusions', ['data' => $this->data]);
+        } catch (\Exception $e) {
+            flash('Something went wrong');
+            return back();
+        }
     }
 
     public function consultation() {

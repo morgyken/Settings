@@ -22,6 +22,7 @@
                     <td>{{$scheme->companies->name}}</td>
                     <td>{{mconfig('settings.system.scheme_types.'.$scheme->type)}} {{$scheme->amount}}</td>
                     <td>
+                        <!--
                         @if(is_module_enabled('Inventory'))
                         <a href="{{route('settings.exclusions',$scheme->id)}}"><i class="fa fa-bell-slash"></i> Exclusions</a>
                         @endif
