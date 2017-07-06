@@ -12,14 +12,25 @@ class CreateInsuranceSchemesRequest extends FormRequest {
      * @return array
      */
     public function rules() {
+        /*
+          return [
+          "name" => "required",
+          "company" => "required",
+          "type" => "required",
+          "attention" => "required",
+          "amount" => "required_if",
+          "effective_date" => "required|date",
+          "expiry_date" => "required|date"
+          ];
+         */
         return [
             "name" => "required",
             "company" => "required",
             "type" => "required",
-            "attention" => "required",
-            "amount" => "required_if:type,2,3",
-            "effective_date" => "required|date",
-            "expiry_date" => "required|date"
+            "attention" => "",
+            "amount" => "",
+            "effective_date" => "",
+            "expiry_date" => ""
         ];
     }
 

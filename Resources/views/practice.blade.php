@@ -17,7 +17,7 @@
 @section('content')
 <div class="form-horizontal">
     <div class="box box-info">
-        {!! Form::model($data['practice'],['id'=>'practice_form','route'=>'settings.practice.save']) !!}
+        {!! Form::model($data['practice'],['files'=>true,'id'=>'practice_form','route'=>'settings.practice.save']) !!}
         <div class="box-header with-border">
             <h3 class="box-title">Organization Setup</h3>
         </div>
@@ -109,6 +109,17 @@
                         {!! $errors->first('pin', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
+
+                <div class="form-group {{ $errors->has('logo') ? ' has-error' : '' }}">
+                    {!! Form::label('logo', 'logo',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <label class="radio-inline">
+                            {!! Form::file('logo', ['class' => '', 'placeholder' => 'Logo Image']) !!}
+                        </label>
+                        {!! $errors->first('logo', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="box-footer">

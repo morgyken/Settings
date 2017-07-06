@@ -46,6 +46,13 @@ class SetupFunctions {
         $practice->building = $request->building;
         $practice->office = strtoupper($request->office);
         $practice->pin = strtoupper($request->pin);
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $dir = base_path('public/logos/');
+            $file_name = str_slug($request->name).self::generateCode(4) . '.' . $file->getClientOriginalExtension();
+            $file->move($dir, $file_name);
+            $practice->logo = 'public/logos/' . $file_name;
+        }
         if ($practice->save()) {
             return true;
         }
@@ -78,11 +85,22 @@ class SetupFunctions {
         $clinic->status = $request->status;
         $clinic->type = $request->type;
         $clinic->practice = $request->practice_id;
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $dir = base_path('public/logos/');
+            $file_name = str_slug($request->name).self::generateCode(4) . '.' . $file->getClientOriginalExtension();
+            $file->move($dir, $file_name);
+            $clinic->logo = 'public/logos/' . $file_name;
+        }
         if ($clinic->save()) {
             return true;
         }
         flash()->error("An error occurred");
         return false;
+    }
+
+    public static function generateCode($length) {
+        return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
     }
 
     /**
@@ -115,27 +133,36 @@ class SetupFunctions {
      * @return bool
      */
     public static function add_scheme(CreateInsuranceSchemesRequest $request, $id = null) {
-        $scheme = Schemes::findOrNew($id);
-        $scheme->name = $request->name;
-        $scheme->type = $request->type;
-        $scheme->attention = $request->attention;
-        $scheme->company = $request->company;
-        $scheme->effective_date = $request->effective_date;
-        $scheme->expiry_date = $request->expiry_date;
-        if ($request->has('smart')) {
-            $scheme->smart = $request->smart;
+        try {
+            $scheme = Schemes::findOrNew($id);
+            $scheme->name = $request->name;
+            $scheme->type = $request->type;
+            $scheme->company = $request->company;
+            if ($request->has('attention')) {
+                $scheme->attention = $request->attention;
+            }
+            if ($request->has('effective_date')) {
+                $scheme->effective_date = $request->effective_date;
+            }
+            if ($request->has('expiry_date')) {
+                $scheme->expiry_date = $request->expiry_date;
+            }
+
+            if ($request->has('smart')) {
+                $scheme->smart = $request->smart;
+            }
+            if ($request->has('amount')) {
+                $scheme->amount = $request->amount;
+            }
+            $scheme->save();
+            if ($scheme->save()) {
+                return true;
+            }
+        } catch (\Exception $e) {
+            flash()->error("An error occurred");
+            return false;
         }
-        if ($request->has('amount')) {
-            $scheme->amount = $request->amount;
-        }
-        if ($scheme->save()) {
-            return true;
-        }
-        flash()->error("An error occurred");
-        return false;
     }
-
-
 
     /**
      * Adds an appointment or schedule categories
@@ -153,7 +180,6 @@ class SetupFunctions {
         flash()->error("An error occurred");
         return false;
     }
-
 
     public static function include_exclude_product(Request $request) {
         if ($request->to == 'exclude') {

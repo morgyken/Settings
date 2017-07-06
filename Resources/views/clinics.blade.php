@@ -15,7 +15,7 @@ $clinik = $data['clinic_model'];
 @section('content')
 <div class="form-horizontal">
     <div class="box box-info">
-        {!! Form::model($clinik,['route'=>['settings.clinic.save',$id]]) !!}
+        {!! Form::model($clinik,['files'=>true,'route'=>['settings.clinic.save',$id]]) !!}
         <div class="box-header">
             <h3 class="box-title">
                 Add new facility
@@ -116,6 +116,15 @@ $clinik = $data['clinic_model'];
                         <label class="radio-inline">{!! Form::radio('status','active',true) !!} Active</label>
                         <label class="radio-inline">{!! Form::radio('status','inactive') !!} Inactive</label>
                         {!! $errors->first('status', '<span class="help-block">:message</span>') !!}
+                    </div>
+                </div>
+                <div class="form-group {{ $errors->has('logo') ? ' has-error' : '' }}">
+                    {!! Form::label('logo', 'logo',['class'=>'control-label col-md-4']) !!}
+                    <div class="col-md-8">
+                        <label class="radio-inline">
+                            {!! Form::file('logo', ['class' => 'form-control', 'placeholder' => 'Logo Image']) !!}
+                        </label>
+                        {!! $errors->first('logo', '<span class="help-block">:message</span>') !!}
                     </div>
                 </div>
             </div>

@@ -62,7 +62,7 @@
     </div>
 </div>
 <script>
-    var EXCLUDE_URL = "{{route('setup.ajax.exclude_scheme')}}";
+    var EXCLUDE_URL = "";
     var scheme_id = "{{$data['scheme']->id}}";
 </script>
 <script src="{{m_asset('setup:js/exclusions.min.js')}}"></script>
