@@ -46,6 +46,13 @@ class SetupFunctions {
         $practice->building = $request->building;
         $practice->office = strtoupper($request->office);
         $practice->pin = strtoupper($request->pin);
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $dir = base_path('public/logos/');
+            $file_name = str_slug($request->name).self::generateCode(4) . '.' . $file->getClientOriginalExtension();
+            $file->move($dir, $file_name);
+            $practice->logo = 'public/logos/' . $file_name;
+        }
         if ($practice->save()) {
             return true;
         }
@@ -78,11 +85,22 @@ class SetupFunctions {
         $clinic->status = $request->status;
         $clinic->type = $request->type;
         $clinic->practice = $request->practice_id;
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $dir = base_path('public/logos/');
+            $file_name = str_slug($request->name).self::generateCode(4) . '.' . $file->getClientOriginalExtension();
+            $file->move($dir, $file_name);
+            $clinic->logo = 'public/logos/' . $file_name;
+        }
         if ($clinic->save()) {
             return true;
         }
         flash()->error("An error occurred");
         return false;
+    }
+
+    public static function generateCode($length) {
+        return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
     }
 
     /**
