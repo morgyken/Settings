@@ -7,6 +7,7 @@ use Ignite\Core\Library\Validation;
 use Ignite\Settings\Entities\Clinics;
 use Ignite\Settings\Entities\Insurance;
 use Ignite\Settings\Entities\Practice;
+use Ignite\Settings\Entities\Rooms;
 use Ignite\Settings\Entities\Schemes;
 use Ignite\Settings\Http\Requests\CreateClinicRequest;
 use Ignite\Settings\Http\Requests\CreateInsuranceRequest;
@@ -14,14 +15,17 @@ use Ignite\Settings\Http\Requests\CreateInsuranceSchemesRequest;
 use Ignite\Settings\Http\Requests\CreatePracticeRequest;
 use Ignite\Settings\Library\SetupFunctions;
 use Ignite\Settings\Entities\CompanyPrice;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class SetupController extends AdminBaseController {
+class SetupController extends AdminBaseController
+{
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function practice() {
+    public function practice()
+    {
         $this->data['practice'] = Practice::all()->first();
         return view('settings::practice', ['data' => $this->data]);
     }
@@ -30,7 +34,8 @@ class SetupController extends AdminBaseController {
      * @param CreatePracticeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function save_practice(CreatePracticeRequest $request) {
+    public function save_practice(CreatePracticeRequest $request)
+    {
         if (SetupFunctions::new_update_practice($request)) {
             flash('Practice Updated');
         }
@@ -41,13 +46,42 @@ class SetupController extends AdminBaseController {
      * @param null $edit_id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function clinics($edit_id = null) {
+    public function clinics($edit_id = null)
+    {
         $this->data['clinics'] = Clinics::wherePractice(config('practice.id'))->get();
         $this->data['clinic_model'] = Clinics::findOrNew($edit_id);
         return view('settings::clinics', ['data' => $this->data, 'id' => $edit_id]);
     }
 
-    public function save_clinic(CreateClinicRequest $request, $edit_id = null) {
+    /**
+     * @param null $edit_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function rooms($edit_id = null)
+    {
+//        $this->data['rooms'] = Rooms::whereHas('facility', function (Builder $query) {
+//            $query->wherePractice(config('practice.id'));
+//        })->get();
+        $this->data['rooms'] = Rooms::all();
+        $this->data['room'] = Rooms::findOrNew($edit_id);
+        $this->data['clinics'] = Clinics::all()->pluck('name', 'id');
+        return view('settings::rooms', ['data' => $this->data, 'id' => $edit_id]);
+    }
+
+    public function saveRoom(Request $request)
+    {
+        $this->validate($request, ['facility_id' => 'required', 'name' => 'required']);
+        /** @var Rooms $saver */
+        $saver = Rooms::findOrNew($request->id);
+        $saver->facility_id = $request->facility_id;
+        $saver->name = $request->name;
+        $saver->save();
+        flash()->success('Room saved');
+        return redirect()->route('settings.rooms');
+    }
+
+    public function save_clinic(CreateClinicRequest $request, $edit_id = null)
+    {
         if (SetupFunctions::add_clinic($request, $edit_id)) {
             flash('Facility saved');
         }
@@ -58,7 +92,8 @@ class SetupController extends AdminBaseController {
      * @param null $company
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function insurance($company = null) {
+    public function insurance($company = null)
+    {
         $this->data['companies'] = Insurance::all();
         $this->data['model'] = Insurance::findOrNew($company);
         return view('settings::insurance', ['data' => $this->data, 'id' => $company]);
@@ -68,7 +103,8 @@ class SetupController extends AdminBaseController {
      * @param null $company procedure prices
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function CompanyProcedures(Request $request) {
+    public function CompanyProcedures(Request $request)
+    {
         if ($request->isMethod('post')) {
             $this->saveCoProcedure($request);
         }
@@ -77,7 +113,8 @@ class SetupController extends AdminBaseController {
         return view('settings::company_procedures', ['data' => $this->data, 'id' => $request->company]);
     }
 
-    public function purge_co_price(\Illuminate\Http\Request $request) {
+    public function purge_co_price(\Illuminate\Http\Request $request)
+    {
         $procedure = $request->procedure;
         $price = $request->price;
         $co = $request->co;
@@ -98,7 +135,8 @@ class SetupController extends AdminBaseController {
      * Build an index of items dynamically
      * @return array
      */
-    private function get_selected_stack(Request $request) {
+    private function get_selected_stack(Request $request)
+    {
         $stack = [];
         foreach ($request->input() as $key => $one) {
             if (starts_with($key, 'item')) {
@@ -108,7 +146,8 @@ class SetupController extends AdminBaseController {
         return $stack;
     }
 
-    function saveCoProcedure(Request $request) {
+    function saveCoProcedure(Request $request)
+    {
         try {
             $set = $this->get_selected_stack($request);
             foreach ($set as $item) {
@@ -130,7 +169,8 @@ class SetupController extends AdminBaseController {
      * @param null $company
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function save_insurance(CreateInsuranceRequest $request, $company = null) {
+    public function save_insurance(CreateInsuranceRequest $request, $company = null)
+    {
         if (SetupFunctions::add_insurance_company($request, $company)) {
             flash("Insurance company saved");
         }
@@ -141,21 +181,24 @@ class SetupController extends AdminBaseController {
      * @param null $parent_company
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function schemes($parent_company = null) {
+    public function schemes($parent_company = null)
+    {
         $this->data['schemes'] = empty($parent_company) ?
-                Schemes::all() :
-                Schemes::whereCompany($parent_company)->get();
+            Schemes::all() :
+            Schemes::whereCompany($parent_company)->get();
         return view('settings::schemes', ['data' => $this->data, 'select' => $parent_company]);
     }
 
-    public function save_schemes(CreateInsuranceSchemesRequest $request, $company = null) {
+    public function save_schemes(CreateInsuranceSchemesRequest $request, $company = null)
+    {
         if (SetupFunctions::add_scheme($request)) {
             flash("Insurance scheme has been saved");
         }
         return redirect()->route('settings.schemes', $company);
     }
 
-    public function schedule_cat(Request $request, $id = null) {
+    public function schedule_cat(Request $request, $id = null)
+    {
         if ($request->isMethod('post')) {
             if (empty($id))
                 $this->validate($request, Validation::validate_schedule_category(), ['unique' => 'Already exist']);
@@ -168,7 +211,8 @@ class SetupController extends AdminBaseController {
         return view('settings::schedule_cat', ['data' => $this->data]);
     }
 
-    public function user_profile(Request $request, $id) {
+    public function user_profile(Request $request, $id)
+    {
         if ($request->isMethod('post')) {
             $this->validate($request, Validation::validate_edit_user());
             if (SetupFunctions::edit_system_user($request, $id)) {
@@ -179,7 +223,8 @@ class SetupController extends AdminBaseController {
         return view('settings::userprofile', ['data' => $this->data]);
     }
 
-    public function permission(Request $request, $group_id) {
+    public function permission(Request $request, $group_id)
+    {
         if ($request->isMethod('post')) {
             try {
                 if (SetupFunctions::save_permissions($request, $group_id)) {
@@ -195,7 +240,8 @@ class SetupController extends AdminBaseController {
         return view('settings::permissions', ['data' => $this->data]);
     }
 
-    public function exclude_product($id) {
+    public function exclude_product($id)
+    {
         try {
             $this->data['products'] = \Ignite\Inventory\Entities\InventoryProducts::all();
             $this->data['excluded'] = \Ignite\Inventory\Entities\InventoryProductExclusion::whereScheme($id)->select('product')->get();
@@ -207,7 +253,8 @@ class SetupController extends AdminBaseController {
         }
     }
 
-    public function consultation() {
+    public function consultation()
+    {
 
     }
 
