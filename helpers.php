@@ -26,7 +26,8 @@ if (!function_exists('setting')) {
      * @param null $default
      * @return mixed
      */
-    function setting($name, $default = null) {
+    function setting($name, $default = null)
+    {
         return app('setting.settings')->get($name, $default);
     }
 
@@ -40,7 +41,8 @@ if (!function_exists('get_clinics')) {
      * @param $practice_id The practice id
      * @return array Select ready array
      */
-    function get_clinics($practice_id = null) {
+    function get_clinics($practice_id = null)
+    {
 
         if (empty($practice_id)) {
             $practice_id = config('practice.practice_id');
@@ -60,7 +62,8 @@ if (!function_exists('get_users')) {
      * @param null $role
      * @return \Illuminate\Support\Collection Doctors
      */
-    function get_users($role = null) {
+    function get_users($role = null)
+    {
         if (empty($role)) {
             //we might retun all or none
         }
@@ -75,7 +78,8 @@ if (!function_exists('get_wards')) {
      * @param int $clinic_id
      * @return array Wards list
      */
-    function get_wards($clinic_id = null) {
+    function get_wards($clinic_id = null)
+    {
         $wards = Wards::select('ward_id', 'name')->get()->toArray();
         if (!empty($clinic_id)) {
             $wards = Wards::whereClinic($clinic_id)->select('id', 'name')->get()->toArray();
@@ -94,11 +98,12 @@ if (!function_exists('get_user_groups')) {
      * Get User Groups
      * @return \Illuminate\Support\Collection
      */
-    function get_user_groups() {
+    function get_user_groups()
+    {
         // return \Dervis\Modules\Core\Repositories\RoleRepository::all();
-        return Roles::all()->reject(function($value) {
-                    return $value->name === 'sudo';
-                })->pluck('display_name', 'id');
+        return Roles::all()->reject(function ($value) {
+            return $value->name === 'sudo';
+        })->pluck('display_name', 'id');
     }
 
 }
@@ -107,7 +112,8 @@ if (!function_exists('get_insurance_companies')) {
     /**
      * @return \Illuminate\Support\Collection All insurance companies registered
      */
-    function get_insurance_companies() {
+    function get_insurance_companies()
+    {
         return Insurance::all()->pluck('name', 'id');
     }
 
@@ -118,7 +124,8 @@ if (!function_exists('get_schemes')) {
      * @param $id The scheme id
      * @return \Illuminate\Support\Collection An associative array of schemes
      */
-    function get_schemes($id) {
+    function get_schemes($id)
+    {
         return Schemes::whereCompany($id)->pluck('name', 'id');
     }
 
@@ -131,7 +138,8 @@ if (!function_exists('get_clinic_name')) {
      * @param int $id
      * @return string
      */
-    function get_clinic_name($id = null) {
+    function get_clinic_name($id = null)
+    {
         if (empty($id)) {
             $id = Cookie::get('clinic') || 1;
         }
@@ -145,7 +153,8 @@ if (!function_exists('get_doctors')) {
      * List of doctors
      * @return array
      */
-    function get_doctors() {
+    function get_doctors()
+    {
         return User::with(['profile'])->get()->pluck('profile.full_name', 'id')->toArray();
         /*
           return User::with(['profile', 'role'])
@@ -163,11 +172,12 @@ if (!function_exists('is_excluded')) {
      * @param InventoryProducts $product
      * @return bool
      */
-    function is_excluded($collection, $product) {
+    function is_excluded($collection, $product)
+    {
         try {
             return $collection->contains(function ($key, $value) use ($product) {
-                        return $value->product == $product->id;
-                    });
+                return $value->product == $product->id;
+            });
         } catch (\Exception $ex) {
             flash("Something went wrong");
             return back();
@@ -182,7 +192,8 @@ if (!function_exists('get_role')) {
      * @param Collection $role
      * @return string
      */
-    function get_role(Collection $role) {
+    function get_role(Collection $role)
+    {
         if ($role->isEmpty()) {
             return "";
         }
@@ -198,10 +209,11 @@ if (!function_exists('m_setting')) {
 
     /**
      * Retrieve a setting value from the setting repository
-     * @param type $param
-     * @return type
+     * @param string $param
+     * @return mixed
      */
-    function m_setting($param) {
+    function m_setting($param)
+    {
         $arguments = explode('.', $param);
         $should_get = setting(implode('::', $arguments));
         return !empty($should_get) ? $should_get : null;
