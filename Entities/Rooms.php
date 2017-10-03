@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Ignite\Settings\Entities\Clinics $facility
+ * @property-read mixed $desc
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Settings\Entities\Rooms whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Settings\Entities\Rooms whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Settings\Entities\Rooms whereFacilityId($value)
@@ -30,5 +31,10 @@ class Rooms extends Model
     public function facility()
     {
         return $this->belongsTo(Clinics::class, 'facility_id');
+    }
+
+    public function getDescAttribute()
+    {
+        return $this->name . ' (' . $this->facility->name . ')';
     }
 }
