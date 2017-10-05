@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Ignite\Settings\Entities\Practice $practices
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ignite\Settings\Entities\Rooms[] $rooms
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Settings\Entities\Clinics whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Settings\Entities\Clinics whereBuilding($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Settings\Entities\Clinics whereCreatedAt($value)
@@ -46,13 +47,19 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Ignite\Settings\Entities\Clinics whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Clinics extends Model {
+class Clinics extends Model
+{
 
     protected $fillable = [];
     public $table = 'settings_clinics';
 
-    public function practices() {
+    public function practices()
+    {
         return $this->belongsTo(Practice::class, 'practice');
     }
 
+    public function rooms()
+    {
+        return $this->hasMany(Rooms::class, 'facility_id');
+    }
 }
