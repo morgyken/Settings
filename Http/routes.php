@@ -23,6 +23,8 @@ $router->post('clinics/save/{edit?}', ['uses' => 'SetupController@save_clinic', 
 $router->get('companies/show/{id?}', ['uses' => 'SetupController@insurance', 'as' => 'companies']);
 $router->post('companies/save/{id?}', ['uses' => 'SetupController@save_insurance', 'as' => 'companies.save']);
 $router->get('scheme/show/{company?}', ['uses' => 'SetupController@schemes', 'as' => 'schemes']);
+$router->get('scheme/p-and-e/drugs/{id}/sapi', ['uses' => 'SetupController@pneDrugs', 'as' => 'pne.drugs']);
+$router->get('scheme/p-and-e/procedure/{id}/sapi', ['uses' => 'SetupController@pneProcedures', 'as' => 'pne.procedures']);
 $router->post('scheme/save/{company?}', ['uses' => 'SetupController@save_schemes', 'as' => 'schemes.save']);
 $router->match(['post', 'get'], 'schedule_cat/{cat?}', ['as' => 'schedule_cat', 'uses' => 'SetupController@schedule_cat']);
 $router->match(['post', 'get'], 'user/{id}', ['uses' => 'SetupController@user_profile', 'as' => 'userprofile']);

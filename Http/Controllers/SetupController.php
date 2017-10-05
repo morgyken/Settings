@@ -4,8 +4,11 @@ namespace Ignite\Settings\Http\Controllers;
 
 use Ignite\Core\Http\Controllers\AdminBaseController;
 use Ignite\Core\Library\Validation;
+use Ignite\Evaluation\Entities\Procedures;
+use Ignite\Inventory\Entities\InventoryProducts;
 use Ignite\Settings\Entities\Clinics;
 use Ignite\Settings\Entities\Insurance;
+use Ignite\Settings\Entities\InsuranceSchemePricing;
 use Ignite\Settings\Entities\Practice;
 use Ignite\Settings\Entities\Rooms;
 use Ignite\Settings\Entities\Schemes;
@@ -187,6 +190,20 @@ class SetupController extends AdminBaseController
             Schemes::all() :
             Schemes::whereCompany($parent_company)->get();
         return view('settings::schemes', ['data' => $this->data, 'select' => $parent_company]);
+    }
+
+    public function pneDrugs($scheme_id)
+    {
+        $this->data['products'] = InventoryProducts::all();
+        $this->data['scheme'] = Schemes::find($scheme_id);
+        return view('settings::scheme_product_price', ['data' => $this->data]);
+    }
+
+    public function pneProcedures($scheme_id)
+    {
+        $this->data['procedures'] = Procedures::all();
+        $this->data['scheme'] = Schemes::find($scheme_id);
+        return view('settings::scheme_procedure_price', ['data' => $this->data]);
     }
 
     public function save_schemes(CreateInsuranceSchemesRequest $request, $company = null)
