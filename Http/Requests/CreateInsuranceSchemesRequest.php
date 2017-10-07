@@ -26,11 +26,11 @@ class CreateInsuranceSchemesRequest extends FormRequest {
         return [
             "name" => "required",
             "company" => "required",
-            "type" => "required",
-            "attention" => "",
-            "amount" => "",
-            "effective_date" => "",
-            "expiry_date" => ""
+            //"type" => "required",
+            //"attention" => "",
+            //"amount" => "",
+            //"effective_date" => "",
+            //"expiry_date" => ""
         ];
     }
 
