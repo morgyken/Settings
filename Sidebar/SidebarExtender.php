@@ -21,7 +21,8 @@ use Ignite\Core\Contracts\Authentication;
  *
  * @author Samuel Dervis <samueldervis@gmail.com>
  */
-class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
+class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
+{
 
     /**
      * @var Authentication
@@ -33,11 +34,13 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
      *
      * @internal param Guard $guard
      */
-    public function __construct(Authentication $auth) {
+    public function __construct(Authentication $auth)
+    {
         $this->auth = $auth;
     }
 
-    public function extendWith(\Maatwebsite\Sidebar\Menu $menu) {
+    public function extendWith(\Maatwebsite\Sidebar\Menu $menu)
+    {
         $menu->group('Dashboard', function (Group $group) {
             $group->item('Setup', function (Item $item) {
                 $item->icon('fa fa-cogs');
@@ -60,12 +63,17 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender {
                     $item->authorize($this->auth->hasAccess('setup.facilities'));
                     $item->route('settings.clinics');
                 });
-                $item->item('Insurance Companies', function(Item $item) {
+                $item->item('Insurance Companies', function (Item $item) {
                     $item->icon('fa fa-institution');
                     $item->authorize($this->auth->hasAccess('setup.insurance'));
                     $item->route('settings.companies');
                 });
-                $item->item('Insurance Schemes', function(Item $item) {
+                $item->item('Facility Rooms', function (Item $item) {
+                    $item->icon('fa fa-bath');
+                    $item->authorize($this->auth->hasAccess('setup.rooms'));
+                    $item->route('settings.rooms');
+                });
+                $item->item('Insurance Schemes', function (Item $item) {
                     $item->icon('fa fa-plus-square');
                     $item->authorize($this->auth->hasAccess('setup.schemes'));
                     $item->route('settings.schemes');

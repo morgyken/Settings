@@ -5,7 +5,8 @@ namespace Ignite\Settings\Database\Seeders;
 use Ignite\Settings\Entities\Settings;
 use Illuminate\Database\Seeder;
 
-class DefaultSettingsTableSeeder extends Seeder {
+class DefaultSettingsTableSeeder extends Seeder
+{
 
     /**
      * Run the database seeds.
@@ -13,7 +14,6 @@ class DefaultSettingsTableSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        /* `platform`.`settings_settings` */
         $settings_settings = [
                 ['name' => 'core::site-name', 'value' => 'Collabmed Platform'],
                 ['name' => 'core::site-description', 'value' => 'An elegant , highly opinionated modular healthcare system'],
