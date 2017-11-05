@@ -13,16 +13,17 @@ class DefaultSettingsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         $settings_settings = [
-                ['name' => 'core::site-name', 'value' => 'Collabmed Platform'],
-                ['name' => 'core::site-description', 'value' => 'An elegant , highly opinionated modular healthcare system'],
-                ['name' => 'core::real-time', 'value' => false],
-                ['name' => 'finance::receipt_prefix', 'value' => 'COL'],
-                ['name' => 'reception::checkin_destinations', 'value' => '["5"]'],
-                ['name' => 'reception::checkin_places',
-                    'value' => '["laboratory","theatre","diagnostics","radiology","pharmacy","optical","dental","nursing"]'
-                ]
+            ['name' => 'core::site-name', 'value' => 'Collabmed Platform'],
+            ['name' => 'core::site-description', 'value' => 'An elegant , highly opinionated modular healthcare system'],
+            ['name' => 'core::real-time', 'value' => false],
+            ['name' => 'finance::receipt_prefix', 'value' => 'COL'],
+            ['name' => 'finance::background_manifest', 'value' => true],
+            ['name' => 'reception::checkin_destinations', 'value' => '["5"]'],
+            ['name' => 'reception::checkin_places', 'value' => '["laboratory","theatre","diagnostics","radiology","pharmacy","optical","dental","nursing"]'],
+            ['name' => 'reception::checkin_to_rooms', 'value' => true],
         ];
         foreach ($settings_settings as $setting) {
             Settings::create($setting);
