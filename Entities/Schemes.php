@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $attention
  * @property int $smart
  * @property float|null $amount
- * @property string $effective_date
+ * @property \Carbon\Carbon $effective_date
  * @property string|null $deleted_at
  * @property string $expiry_date
  * @property \Carbon\Carbon|null $created_at
@@ -36,7 +36,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Schemes extends Model {
 
-    protected $fillable = [];
+    protected $dates = ['effective_date'];
     public $table = 'settings_schemes';
 
     public function companies() {
