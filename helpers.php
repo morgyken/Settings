@@ -210,13 +210,14 @@ if (!function_exists('m_setting')) {
     /**
      * Retrieve a setting value from the setting repository
      * @param string $param
+     * @param string|null $default
      * @return mixed
      */
-    function m_setting($param)
+    function m_setting($param, $default = null)
     {
         $arguments = explode('.', $param);
         $should_get = setting(implode('::', $arguments));
-        return !empty($should_get) ? $should_get : null;
+        return !empty($should_get) ? $should_get : $default;
     }
 
 }
