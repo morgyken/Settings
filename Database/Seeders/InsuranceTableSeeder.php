@@ -18,6 +18,8 @@ class InsuranceTableSeeder extends Seeder
      */
     public function run()
     {
+        $this->seedNHIF();
+
         for ($i = 0; $i < 10; $i++) {
             \DB::beginTransaction();
             $faker = Factory::create();
@@ -47,6 +49,24 @@ class InsuranceTableSeeder extends Seeder
             }
             \DB::commit();
         }
+    }
+
+    /*
+    * Method to create NHIF insurance company by default
+    */
+    public function seedNHIF()
+    {
+        Insurance::create([
+            'name' => 'NHIF',
+            'address' => null,
+            'post_code' => null,
+            'town' => 'nairobi',
+            'street' => null,
+            'building' => 'NHIF',
+            'telephone' => null,
+            'mobile' => null,
+            'email' => null,
+        ]);
     }
 
 }
