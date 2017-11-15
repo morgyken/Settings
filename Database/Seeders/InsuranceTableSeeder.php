@@ -6,7 +6,6 @@ use Faker\Factory;
 use Ignite\Settings\Entities\Insurance;
 use Ignite\Settings\Entities\Schemes;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class InsuranceTableSeeder extends Seeder
 {
@@ -58,14 +57,14 @@ class InsuranceTableSeeder extends Seeder
     {
         Insurance::create([
             'name' => 'NHIF',
-            'address' => null,
-            'post_code' => null,
-            'town' => 'nairobi',
-            'street' => null,
+            'address' => '30443',
+            'post_code' => '0100',
+            'town' => 'Nairobi',
+            'street' => 'UpperHill',
             'building' => 'NHIF',
-            'telephone' => null,
-            'mobile' => null,
-            'email' => null,
+            'telephone' => '(020) 272 3246',
+            'mobile' => '(020) 272 3246',
+            'email' => 'info@nhif.or.ke',
         ]);
     }
 
