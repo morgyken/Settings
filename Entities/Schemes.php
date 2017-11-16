@@ -43,4 +43,11 @@ class Schemes extends Model {
         return $this->belongsTo(Insurance::class, 'company');
     }
 
+    /*
+    * Relationship between a rebate and a scheme
+    */
+    public function rebate()
+    {
+        return $this->hasOne(Rebate::class, 'scheme_id');
+    }
 }

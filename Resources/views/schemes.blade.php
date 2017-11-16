@@ -12,6 +12,7 @@
 @section('content')
 
 @include('settings::partials.scheme-list')
+
 <div class="modal fade"  id="newScheme" role="dialog">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
@@ -34,7 +35,7 @@
                                     <div class="form-group {{ $errors->has('company') ? ' has-error' : '' }}">
                                         {!! Form::label('company', 'Insurance Company',['class'=>'control-label col-md-4']) !!}
                                         <div class="col-md-8">
-                                            {!! Form::select('company',get_insurance_companies(), old('company',$select), ['class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+                                            {!! Form::select('company',get_insurance_companies(), old('company',$select), ['id'=>'insurance-company', 'class' => 'form-control', 'placeholder' => 'Choose...']) !!}
                                             {!! $errors->first('company', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
@@ -52,6 +53,15 @@
                                             {!! $errors->first('type', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
+
+                                    <div id="rebate" class="form-group {{ $errors->has('rebate') ? ' has-error' : '' }} {{ $hidden }}">
+                                        {!! Form::label('rebate', 'Rebate',['class'=>'control-label col-md-4']) !!}
+                                        <div class="col-md-8">
+                                            {!! Form::text('rebate', old('rebate'), ['class' => 'form-control', 'placeholder' => 'Rebate']) !!}
+                                            {!! $errors->first('rebate', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+
                                     <div class="form-group {{ $errors->has('amount') ? ' has-error' : '' }}">
                                         {!! Form::label('amount', 'Amount',['class'=>'control-label col-md-4']) !!}
                                         <div class="col-md-8">
@@ -100,6 +110,18 @@
             </div>
             {!! Form::close() !!}
         </div>
+
+        {{-- @push('scripts') --}}
+            <script>
+                $('#insurance-company').change(function(event){
+                    var company = event.target.value;
+
+                    company == "{{ $nhif }}" ? $("#rebate").removeClass('hidden') : $("#rebate").addClass('hidden');
+                })
+                
+            </script>
+        {{-- @endpush --}}
+
     </div>
 </div>
 <script type="text/javascript" src="{{m_asset('settings:js/schemes.min.js')}}"></script>
