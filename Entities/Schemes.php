@@ -3,6 +3,7 @@
 namespace Ignite\Settings\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Ignite\Inpatient\Entities\Rebate;
 
 /**
  * Ignite\Settings\Entities\Schemes
@@ -41,6 +42,15 @@ class Schemes extends Model {
 
     public function companies() {
         return $this->belongsTo(Insurance::class, 'company');
+    }
+
+    /*
+    * Relationship between a scheme and a rebate
+    * Applicable only to NHIF schemes
+    */
+    public function rebate()
+    {
+        return $this->hasOne(Rebate::class, 'scheme_id');
     }
 
 }

@@ -20,6 +20,7 @@ use Ignite\Settings\Http\Requests\CreateClinicRequest;
 use Ignite\Settings\Http\Requests\CreateInsuranceRequest;
 use Ignite\Settings\Http\Requests\CreateInsuranceSchemesRequest;
 use Ignite\Settings\Http\Requests\CreatePracticeRequest;
+use Ignite\Inpatient\Entities\Rebate;
 
 /**
  * Description of SetupFunctions
@@ -154,7 +155,16 @@ class SetupFunctions {
             if ($request->has('amount')) {
                 $scheme->amount = $request->amount;
             }
+
             $scheme->save();
+
+            if($request->has('rebate'))
+            {
+                $rebate = ['scheme_id' => $scheme->id, 'amount' => $request->rebate];
+                
+                Rebate::create($rebate);
+            }
+
             if ($scheme->save()) {
                 return true;
             }
