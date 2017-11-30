@@ -46,11 +46,10 @@ class Schemes extends Model {
 
     /*
     * Relationship between a scheme and a rebate
-    * Applicable only to NHIF schemes
+    * Applicable only to NHIF schemes=
     */
     public function rebate()
     {
         return $this->hasOne(Rebate::class, 'scheme_id');
     }
-
 }

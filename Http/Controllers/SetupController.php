@@ -189,7 +189,12 @@ class SetupController extends AdminBaseController
         $this->data['schemes'] = empty($parent_company) ?
             Schemes::all() :
             Schemes::whereCompany($parent_company)->get();
-        return view('settings::schemes', ['data' => $this->data, 'select' => $parent_company]);
+
+        $nhif = Insurance::where('name', 'NHIF')->pluck('id')->first();
+
+        $hidden = $parent_company == $nhif ? '' : 'hidden';
+
+        return view('settings::schemes', ['data' => $this->data, 'select' => $parent_company, 'nhif' => $nhif, 'hidden' => $hidden]);
     }
 
     public function pneDrugs($scheme_id)
