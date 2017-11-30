@@ -3,6 +3,7 @@
 namespace Ignite\Settings\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Ignite\Inpatient\Entities\Rebate;
 
 /**
  * Ignite\Settings\Entities\Schemes
@@ -44,7 +45,8 @@ class Schemes extends Model {
     }
 
     /*
-    * Relationship between a rebate and a scheme
+    * Relationship between a scheme and a rebate
+    * Applicable only to NHIF schemes=
     */
     public function rebate()
     {

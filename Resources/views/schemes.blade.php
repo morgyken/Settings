@@ -35,7 +35,11 @@
                                     <div class="form-group {{ $errors->has('company') ? ' has-error' : '' }}">
                                         {!! Form::label('company', 'Insurance Company',['class'=>'control-label col-md-4']) !!}
                                         <div class="col-md-8">
+<<<<<<< HEAD
+                                            {!! Form::select('company',get_insurance_companies(), old('company',$select), ['class' => 'form-control', 'placeholder' => 'Choose...', 'id'=>'company-select']) !!}
+=======
                                             {!! Form::select('company',get_insurance_companies(), old('company',$select), ['id'=>'insurance-company', 'class' => 'form-control', 'placeholder' => 'Choose...']) !!}
+>>>>>>> master
                                             {!! $errors->first('company', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
@@ -54,6 +58,17 @@
                                         </div>
                                     </div>
 
+<<<<<<< HEAD
+                                    @if(is_module_enabled('Inpatient'))
+                                        <div class="form-group {{ $errors->has('amount') ? ' has-error' : '' }} hidden" id="rebate">
+                                            {!! Form::label('rebate', 'NHIF Rebate',['class'=>'control-label col-md-4']) !!}
+                                            <div class="col-md-8">
+                                                {!! Form::text('rebate', old('rebate'), ['class' => 'form-control', 'placeholder' => 'Rebate']) !!}
+                                                {!! $errors->first('rebate', '<span class="help-block">:message</span>') !!}
+                                            </div>
+                                        </div>
+                                    @endif
+=======
                                     <div id="rebate" class="form-group {{ $errors->has('rebate') ? ' has-error' : '' }} {{ $hidden }}">
                                         {!! Form::label('rebate', 'Rebate',['class'=>'control-label col-md-4']) !!}
                                         <div class="col-md-8">
@@ -61,6 +76,7 @@
                                             {!! $errors->first('rebate', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
+>>>>>>> master
 
                                     <div class="form-group {{ $errors->has('amount') ? ' has-error' : '' }}">
                                         {!! Form::label('amount', 'Amount',['class'=>'control-label col-md-4']) !!}
@@ -124,5 +140,27 @@
 
     </div>
 </div>
+<script>
+$(document).ready(function(){
+
+    let current = $('#company-select').find(":selected").text();
+    
+    if(current == 'NHIF')
+    {
+        $('#rebate').removeClass('hidden');
+    }
+
+    $('body').on('change', '#company-select', function(event){
+
+        let company = $("option:selected", this).text();
+
+        if(company == 'NHIF'){
+            $('#rebate').removeClass('hidden');
+        }else{
+            $('#rebate').addClass('hidden');
+        }
+    });
+})
+</script>
 <script type="text/javascript" src="{{m_asset('settings:js/schemes.min.js')}}"></script>
 @endsection
