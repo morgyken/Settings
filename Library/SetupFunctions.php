@@ -16,7 +16,6 @@ use Ignite\Settings\Entities\Clinics;
 use Ignite\Settings\Entities\Insurance;
 use Ignite\Settings\Entities\Practice;
 use Ignite\Settings\Entities\Schemes;
-use Ignite\Settings\Entities\Rebate;
 use Ignite\Settings\Http\Requests\CreateClinicRequest;
 use Ignite\Settings\Http\Requests\CreateInsuranceRequest;
 use Ignite\Settings\Http\Requests\CreateInsuranceSchemesRequest;

@@ -13,6 +13,18 @@
 
     @include('settings::partials.scheme-list')
 
+<<<<<<< HEAD
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Manage Insurance Schemes</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="col-md-6">
+                                    <div class="form-group {{ $errors->has('company') ? ' has-error' : '' }}">
+                                        {!! Form::label('company', 'Insurance Company',['class'=>'control-label col-md-4']) !!}
+                                        <div class="col-md-8">
+                                            {!! Form::select('company',get_insurance_companies(), old('company',$select), ['class' => 'form-control', 'placeholder' => 'Choose...', 'id'=>'company-select']) !!}
+                                            {!! $errors->first('company', '<span class="help-block">:message</span>') !!}
+=======
     <div class="modal fade" id="newScheme" role="dialog">
         <div class="modal-dialog modal-lg">
             <!-- Modal content-->
@@ -38,6 +50,7 @@
                                                 {!! Form::select('company',get_insurance_companies(), old('company',$select), ['class' => 'form-control', 'placeholder' => 'Choose...', 'id'=>'company-select']) !!}
                                                 {!! $errors->first('company', '<span class="help-block">:message</span>') !!}
                                             </div>
+>>>>>>> master
                                         </div>
                                         <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                                             {!! Form::label('name', 'Scheme Name',['class'=>'control-label col-md-4']) !!}
@@ -65,13 +78,23 @@
                                         @endif
 
 
+<<<<<<< HEAD
+                                    @if(is_module_enabled('Inpatient'))
+                                        <div class="form-group {{ $errors->has('amount') ? ' has-error' : '' }} hidden" id="rebate">
+                                            {!! Form::label('rebate', 'NHIF Rebate',['class'=>'control-label col-md-4']) !!}
+=======
                                         <div class="form-group {{ $errors->has('amount') ? ' has-error' : '' }}">
                                             {!! Form::label('amount', 'Amount',['class'=>'control-label col-md-4']) !!}
+>>>>>>> master
                                             <div class="col-md-8">
                                                 {!! Form::text('amount', old('amount'), ['class' => 'form-control', 'placeholder' => 'Amount']) !!}
                                                 {!! $errors->first('amount', '<span class="help-block">:message</span>') !!}
                                             </div>
                                         </div>
+<<<<<<< HEAD
+                                    @endif
+=======
+>>>>>>> master
 
                                     </div>
                                     <div class="col-md-6">
